@@ -38,6 +38,8 @@ def register():
             db.session.commit()
             flash('User registered successfully!', 'success')
         return redirect(url_for('index'))
+    else:
+        flash('Form did not validate. Please correct any errors and try again.', 'danger')
     return render_template('register.html', form=form)
 
 @app.route('/update/<int:user_id>', methods=['GET', 'POST'])
