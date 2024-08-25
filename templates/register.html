@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Register User</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.name.label }} {{ form.name(size=32) }}<br>
+        {{ form.resistance.label }} {{ form.resistance(size=32) }}<br>
+        <h3>Squads</h3>
+        {% for squad_form in form.squads %}
+            {{ squad_form.power.label }} {{ squad_form.power(size=32) }}<br>
+        {% endfor %}
+        <button type="submit">{{ form.submit.label }}</button>
+    </form>
+{% endblock %}

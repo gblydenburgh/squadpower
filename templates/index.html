@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Search for a User</h2>
+    <form id="search-form">
+        {{ form.name.label }} {{ form.name(size=32) }}
+        <button type="submit">Search</button>
+    </form>
+    <ul id="results"></ul>
+{% endblock %}

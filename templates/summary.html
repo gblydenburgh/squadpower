@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>User Summary</h2>
+    <table>
+        <thead>
+            <tr>
+                <th><a href="?sort=name">Name</a></th>
+                <th><a href="?sort=resistance">Resistance</a></th>
+                <th>Squad 1</th>
+                <th>Squad 2</th>
+                <th>Squad 3</th>
+                <th>Squad 4</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.resistance }}</td>
+                    {% for squad in user.squads %}
+                        <td>{{ squad.power }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
