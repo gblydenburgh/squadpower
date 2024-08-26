@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>User Summary</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>
+                    <a href="{{ url_for('summary', sort_by='name', sort_order='asc' if sort_by != 'name' or sort_order == 'desc' else 'desc') }}">
+                        Name
+                        {% if sort_by == 'name' %}
+                            {% if sort_order == 'asc' %}
+                                &#9650; <!-- Up arrow -->
+                            {% else %}
+                                &#9660; <!-- Down arrow -->
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ url_for('summary', sort_by='resistance', sort_order='asc' if sort_by != 'resistance' or sort_order == 'desc' else 'desc') }}">
+                        Resistance
+                        {% if sort_by == 'resistance' %}
+                            {% if sort_order == 'asc' %}
+                                &#9650; <!-- Up arrow -->
+                            {% else %}
+                                &#9660; <!-- Down arrow -->
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.resistance }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

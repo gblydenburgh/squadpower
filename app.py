@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_wtf.csrf import CSRFProtect
 from forms import UserForm
 from models import db, User
@@ -11,7 +11,6 @@ app.config['SECRET_KEY'] = 'supersecretkey'
 csrf = CSRFProtect(app)
 db.init_app(app)
 
-# Homepage route
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -50,6 +49,24 @@ def register():
         flash(f"An unexpected error occurred: {e}", 'danger')
     
     return render_template('register.html', form=form)
+
+@app.route('/summary')
+def summary():
+    sort_by = request.args.get('sort_by', 'name')
+    sort_order = request.args.get('sort_order', 'asc')
+    
+    if sort_by == 'resistance':
+        if sort_order == 'asc':
+            users = User.query.order_by(User.resistance.asc()).all()
+        else:
+            users = User.query.order_by(User.resistance.desc()).all()
+    else:
+        if sort_order == 'asc':
+            users = User.query.order_by(User.name.asc()).all()
+        else:
+            users = User.query.order_by(User.name.desc()).all()
+    
+    return render_template('summary.html', users=users, sort_by=sort_by, sort_order=sort_order)
 
 if __name__ == '__main__':
     try:

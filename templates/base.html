@@ -8,6 +8,11 @@
 <body>
     <header>
         <h1>Verbose Flask App</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a> |
+            <a href="{{ url_for('register') }}">Register</a> |
+            <a href="{{ url_for('summary') }}">Summary</a>
+        </nav>
     </header>
     <main>
         {% with messages = get_flashed_messages(with_categories=true) %}
