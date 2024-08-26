@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Enter Squad Power Levels</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {% for squad_form in form.squads %}
+            <label for="squad_{{ loop.index }}">Squad {{ loop.index + 1 }} Power</label>
+            {{ squad_form.power(size=32) }}<br>
+        {% endfor %}
+        <button type="submit">{{ form.submit.label }}</button>
+    </form>
+{% endblock %}

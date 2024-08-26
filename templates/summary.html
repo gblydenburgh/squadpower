@@ -2,42 +2,69 @@
 
 {% block content %}
     <h2>User Summary</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>
-                    <a href="{{ url_for('summary', sort_by='name', sort_order='asc' if sort_by != 'name' or sort_order == 'desc' else 'desc') }}">
-                        Name
-                        {% if sort_by == 'name' %}
-                            {% if sort_order == 'asc' %}
-                                &#9650; <!-- Up arrow -->
-                            {% else %}
-                                &#9660; <!-- Down arrow -->
-                            {% endif %}
-                        {% endif %}
-                    </a>
-                </th>
-                <th>
-                    <a href="{{ url_for('summary', sort_by='resistance', sort_order='asc' if sort_by != 'resistance' or sort_order == 'desc' else 'desc') }}">
-                        Resistance
-                        {% if sort_by == 'resistance' %}
-                            {% if sort_order == 'asc' %}
-                                &#9650; <!-- Up arrow -->
-                            {% else %}
-                                &#9660; <!-- Down arrow -->
-                            {% endif %}
-                        {% endif %}
-                    </a>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
+    <form action="{{ url_for('delete_users') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete the selected users?');">
+        {{ delete_form.hidden_tag() }}
+        <table border="1">
+            <thead>
                 <tr>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.resistance }}</td>
+                    <th>Select</th>
+                    <th>
+                        <a href="{{ url_for('summary', sort_by='name', sort_order='asc' if sort_by != 'name' or sort_order == 'desc' else 'desc') }}">
+                            Name
+                            {% if sort_by == 'name' %}
+                                {% if sort_order == 'asc' %}
+                                    &#9650; <!-- Up arrow -->
+                                {% else %}
+                                    &#9660; <!-- Down arrow -->
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ url_for('summary', sort_by='resistance', sort_order='asc' if sort_by != 'resistance' or sort_order == 'desc' else 'desc') }}">
+                            Resistance
+                            {% if sort_by == 'resistance' %}
+                                {% if sort_order == 'asc' %}
+                                    &#9650; <!-- Up arrow -->
+                                {% else %}
+                                    &#9660; <!-- Down arrow -->
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    {% for i in range(1, 5) %}
+                        <th>
+                            <a href="{{ url_for('summary', sort_by='squad' + i|string, sort_order='asc' if sort_by != 'squad' + i|string or sort_order == 'desc' else 'desc') }}">
+                                Squad {{ i }} Power
+                                {% if sort_by == 'squad' + i|string %}
+                                    {% if sort_order == 'asc' %}
+                                        &#9650; <!-- Up arrow -->
+                                    {% else %}
+                                        &#9660; <!-- Down arrow -->
+                                    {% endif %}
+                                {% endif %}
+                            </a>
+                        </th>
+                    {% endfor %}
+                    <th>Actions</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><input type="checkbox" name="user_ids" value="{{ user.id }}"></td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.resistance }}</td>
+                        {% for squad in user.squads %}
+                            <td>{{ squad.power }}</td>
+                        {% endfor %}
+                        <td>
+                            <a href="{{ url_for('update_user', user_id=user.id) }}">Edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Delete Selected</button>
+    </form>
 {% endblock %}

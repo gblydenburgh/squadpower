@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Welcome to the Homepage</h2>
-    <p>Click the link below to register a new user:</p>
-    <a href="{{ url_for('register') }}">Register a New User</a>
+    <h2>Welcome to the Verbose Flask App</h2>
+    <p>This is the home page.</p>
+    <p><a href="{{ url_for('register') }}">Register a New User</a></p>
+    <p><a href="{{ url_for('summary') }}">View Summary of All Users</a></p>
+    <p><a href="{{ url_for('search') }}">Search for a User</a></p>
 {% endblock %}

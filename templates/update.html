@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Update User: {{ user.name }}</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <label for="name">Name</label>
+        {{ form.name(size=32) }}<br>
+        <label for="resistance">Resistance</label>
+        {{ form.resistance(size=32) }}<br>
+        <h3>Squads</h3>
+        {% for squad_form in form.squads %}
+            <label for="squad_{{ loop.index }}">Squad {{ loop.index + 1 }} Power</label>
+            {{ squad_form.power(size=32) }}<br>
+        {% endfor %}
+        <button type="submit">Update</button>
+    </form>
+
+    <h3>Add or Remove Squads</h3>
+    <form method="POST" action="{{ url_for('add_squad', user_id=user.id) }}">
+        <button type="submit">Add Squad</button>
+    </form>
+    <form method="POST" action="{{ url_for('remove_squad', user_id=user.id) }}">
+        <button type="submit">Remove Squad</button>
+    </form>
+{% endblock %}

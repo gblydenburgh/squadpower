@@ -6,6 +6,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     resistance = db.Column(db.Integer, nullable=False)
-    
-    def __repr__(self):
-        return f"<User {self.name} - Resistance: {self.resistance}>"
+    squads = db.relationship('Squad', backref='user', lazy=True, cascade="all, delete-orphan")
+
+class Squad(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    power = db.Column(db.BigInteger, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
