@@ -3,16 +3,11 @@
 {% block content %}
     <h2>Register User</h2>
     <form method="POST">
-        {{ form.hidden_tag() }}
+        {{ form.hidden_tag() }}  <!-- CSRF token is included here -->
         <label for="name">Name</label>
         {{ form.name(size=32) }}<br>
         <label for="resistance">Resistance</label>
         {{ form.resistance(size=32) }}<br>
-        <h3>Squads</h3>
-        {% for squad_form in form.squads %}
-            <label for="squad_{{ loop.index }}">Squad {{ loop.index }}</label>
-            {{ squad_form.power(size=32) }}<br>
-        {% endfor %}
         <button type="submit">{{ form.submit.label }}</button>
     </form>
 {% endblock %}

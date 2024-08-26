@@ -1,17 +1,17 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, FieldList, FormField
+from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, NumberRange
-
-class SquadForm(FlaskForm):
-    power = IntegerField('Squad Power', validators=[DataRequired(), NumberRange(min=0)])
 
 class UserForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     resistance = IntegerField('Resistance', validators=[DataRequired(), NumberRange(min=0)])
-    squads = FieldList(FormField(SquadForm), min_entries=4, max_entries=4)
     submit = SubmitField('Save')
 
-class SearchForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    submit = SubmitField('Search')
-
+    def validate(self, *args, **kwargs):
+        # Call the parent class's validate method to ensure full validation is done
+        rv = super(UserForm, self).validate(*args, **kwargs)
+        if not rv:
+            print("Form validation failed.")  # Log if validation fails
+        else:
+            print("Form validation succeeded.")  # Log if validation succeeds
+        return rv
